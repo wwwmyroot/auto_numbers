@@ -2,7 +2,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: -all
+#     cell_metadata_filter: title,-all
 #     formats: ipynb,py
 #     text_representation:
 #       extension: .py
@@ -17,6 +17,39 @@
 #
 # LATER: Добавить YOLO_v8
 
+#@title ---- TRY: решение дисконнекта GoogleCollab
+# ---- Не понадобилось, но сохраню на всякий случай ----
+# -- v0
+# from IPython.display import Audio
+#   # import numpy as np
+#
+# Audio(np.array([0] * 2 * 3600 * 3000, dtype=np.int8), normalize=False, rate=3000, autoplay=True)
+#   # Audio([None] * 2 * 3600 * 3000, normalize=False, rate=3000, autoplay=True)
+#
+# -- v1: F-12 and input in dev-tools console
+#
+# function ClickConnect(){
+#  console.log("Working");
+#  document.querySelector("colab-toolbar-button#connect").click()
+#}
+#setInterval(ClickConnect, 60000)
+#
+# -- v2: python solution
+# import numpy as np
+# import time
+# import mouse
+# while True:
+    # random_row = np.random.random_sample()*100
+    # random_col = np.random.random_sample()*10
+    # random_time = np.random.random_sample()*np.random.random_sample() * 100
+    # mouse.wheel(1000)
+    # mouse.wheel(-1000)
+    # mouse.move(random_row, random_col, absolute=False, duration=0.2)
+    # mouse.move(-random_row, -random_col, absolute=False, duration = 0.2)
+    # mouse.LEFT
+    # time.sleep(random_time)
+#
+
 #@title ---- Создать инфраструктуру папок. Разово.
 # -- папка "my_yolov5" для хранения моделей и данных
 # -- v0: python lib (base commands for operating in OS);
@@ -26,7 +59,7 @@ import zipfile
 #
 #
 # полный путь к папке в переменной TRAIN_DIR. Будет использоваться и в других функциях
-TRAIN_DIR = '/content/my_yolov5/'
+TRAIN_DIR = "/content/my_yolov5"
 # при помощии команды "mkdir" создадим новую папку
 os.mkdir(TRAIN_DIR)
 print("-- Создан каталог  my_yolov5  для хранения моделей и данных.")
@@ -55,8 +88,9 @@ print(os.listdir("/content/"))
 #
 # -- загрузка при помощи gdown
 # #!gdown https://storage.yandexcloud.net/terradev/terrayolo/cabin_data_1_classes.zip
+# ---- UNCOMMENT:
 # #!gdown https://storage.yandexcloud.net/aiueducation/marketing/datasets/yolo.zip
-gdown.download ("https://storage.yandexcloud.net/aiueducation/marketing/datasets/yolo.zip")
+# gdown.download ("https://storage.yandexcloud.net/aiueducation/marketing/datasets/yolo.zip")
 print("-- Датасет успешно загружен.")
 #
 # -- control:
@@ -97,40 +131,40 @@ print(os.listdir(TRAIN_DIR))
 #
 # в каталогах train и valid - тренировочная и валидационная части датасета;
 # -- сохранить путь к файлу в отдельную переменную;
-data_file_path = TRAIN_DIR+'dataset.yaml'
+data_file_path = TRAIN_DIR+"dataset.yaml"
 # через cat посмотрим содержимое файла data.yaml;
 print("-- содержимое файла data.yaml (тренировочные и валидационные части)")
 # #!cat {data_file_path}
-with open({data_file_path}, "r") as f:
-    print(f.read)
+with open(data_file_path, "r") as f:
+    print(f.read())
 #
 #  посмотреть папку тренировочной выборки;
 print("-- Папка тренировочной выборки:")
-# #!ls {TRAIN_DIR+'train'}
-os.listdir({TRAIN_DIR+"train"})
+# #!ls {TRAIN_DIR+"train"}
+print(os.listdir(TRAIN_DIR+"train"))
 #
 # ---- control:
-print("-- Папка ", TRAIN_DIR+"train","/labels :")
-# #!ls {TRAIN_DIR+'train'}/labels
-os.listdir({TRAIN_DIR+"train"},"/labels")
-print("-- Папка ", TRAIN_DIR+"train","/images :")
-# #!ls {TRAIN_DIR+'train/images/'}
-os.listdir({TRAIN_DIR+"train/images/"})
+print("-- Папка ", TRAIN_DIR+"train/labels :")
+# #!ls {TRAIN_DIR+"train"}/labels
+print(os.listdir(TRAIN_DIR+"train/labels"))
+print("-- Папка ", TRAIN_DIR+"train/images :")
+# #!ls {TRAIN_DIR+"train/images/"}
+print(os.listdir(TRAIN_DIR+"train/images/"))
 #
 # ---- control:
 # сколько картинок / сколько описаний
 # NOTE: количества могут не совпадать, это нормально, так как номера могут быть не на всех картинках).
 #
-print("---- количество картинок: ", len(os.listdir(TRAIN_DIR+'train/images/')))
-print("---- количество описаний: ", len(os.listdir(TRAIN_DIR+'train/labels/')))
+print("---- количество картинок: ", len(os.listdir(TRAIN_DIR+"train/images/")))
+print("---- количество описаний: ", len(os.listdir(TRAIN_DIR+"train/labels/")))
 #
 # ---- control
 # что содержится в описаниях в валидационной части;
 # возьмем имя первого файла из подкаталога labels
-lab_f_name = os.listdir(TRAIN_DIR+'train/labels/')[0]
-# #!cat {TRAIN_DIR+'train/labels/'+lab_f_name}
-with open({TRAIN_DIR+'train/labels/'+lab_f_name}, "r") as f:
-    print(f.read)
+lab_f_name = os.listdir(TRAIN_DIR+"train/labels/")[0]
+# #!cat {TRAIN_DIR+"train/labels/"+lab_f_name}
+with open(TRAIN_DIR+"train/labels/"+lab_f_name, "r") as f:
+    print(f.read())
 
 #@title ---- Модель.
 #
@@ -173,22 +207,22 @@ my_terra_yolov5.count_labels(data_file_path)
 #
 train_dict=dict()
 # количество эпох;
-train_dict['epochs'] = 10
+train_dict["epochs"] = 10
 # путь к описанию датасета
-train_dict['data'] = data_file_path
+train_dict["data"] = data_file_path
 #
 # ---- control
 # файл с описанием путей к данным;
 print ("-- Файл с описанием путей к данным:")
 # #!cat {data_file_path}
-with open({data_file_path}, "r") as f:
-    print(f.read)
+with open(data_file_path, "r") as f:
+    print(f.read())
 #
 # NOTE: указывать относительные пути вместо абсолютных удобно для переносимости;
 #
-# -- в режиме 'train' запустить обучение с задаными основным словарем параметрами при помощи метода 'run';
+# -- в режиме 'train' запустить обучение с задаными основным словарем параметрами при помощи метода "run";
 #
-my_terra_yolov5.run(train_dict, exp_type='train')
+my_terra_yolov5.run(train_dict, exp_type="train")
 #
 
 #@title ---- Детекция.
@@ -206,37 +240,37 @@ my_terra_yolov5.run(train_dict, exp_type='train')
 # для следующего 'exp2', потом 'exp3' и т.д.;
 print("---- Каталог с результатами экспериментов:")
 # #!ls /content/my_yolov5/yolov5/runs
-os.listdir("/content/my_yolov5/yolov5/runs")
+print(os.listdir("/content/my_yolov5/yolov5/runs"))
 # каталог с результатами обучения;
 print("---- Каталог с результатами обучения:")
 # #!ls /content/my_yolov5/yolov5/runs/train/
-os.listdir ("/content/my_yolov5/yolov5/runs/train/")
+print(os.listdir ("/content/my_yolov5/yolov5/runs/train/"))
 #
 # веса модели: best.pt (лучшие результаты на валидации),
 # last.pt (рассчитанные по последней эпохе обучения);
 print("---- Веса модели:")
 # #!ls /content/my_yolov5/yolov5/runs/train/exp/weights
-os.listdir ("/content/my_yolov5/yolov5/runs/train/exp/weights")
+print(os.listdir ("/content/my_yolov5/yolov5/runs/train/exp/weights"))
 #
 
 #@title ---- Настройки валидации
 # Параметры моделей можно посмотреть в словаре exp_dict.
 # Для каждого типа эксперимента в этом словаре хранится отдельный словарь,
-# доступный по ключам ['train'], ['val'], ['test'].
+# доступный по ключам ["train"], ["val"], ["test"].
 #
 test_dict = dict()
 # так как в нашем датасете мы не подготовили тестовую выборку -  укажем путь
 # к изображениям валидационной выборки;
-test_dict['source'] = TRAIN_DIR+'/valid/images/'
+test_dict["source"] = TRAIN_DIR+"/valid/images/"
 # порог вероятности обнаружения объекта
-test_dict['conf'] = 0.5
+test_dict["conf"] = 0.5
 # путь к весам модели
-test_dict['weights'] = my_terra_yolov5.exp_dict['train']['last_exp_path']+'/weights/best.pt'
+test_dict["weights"] = my_terra_yolov5.exp_dict["train"]["last_exp_path"]+"/weights/best.pt"
 #
 
 #@title ---- Запуск.
 print("---- START ----")
-my_terra_yolov5.run(test_dict, exp_type='test')
+my_terra_yolov5.run(test_dict, exp_type="test")
 print("\n ---- FINISH ----")
 #
 
@@ -253,6 +287,34 @@ my_terra_yolov5.show_test_images(n_samples=N_SAMPLES, img_dir=None)
 # изображений, но если каталог не указывать, то метод попытается найти
 # результаты последней детекции.
 
+
+
+#@title ---- FIX_#0104: "last_exp_path"
+# бывает, что колаб к этому шагу профукивает путь к последнему эксперименту.
+# путь хранится в скриптах для train, detect, validate запуска самого фреймворка
+# если нет смысла перезапускать предыдущие шаги или копаться во фреймверке, то
+# есть смысл явно прописывать пути, заново объявить пути к рабочим
+# папкам итренировочному словарю.
+# NOTE: обратить внимание на номер папки 'exp' (exp; exp2; exp3 и т.д.).
+# ---- uncomment FIX_№0104 (start):
+#f TRAIN_DIR = "/content/my_yolov5"
+#f data_file_path = TRAIN_DIR+"/dataset.yaml"
+#f train_dict=dict()
+# - количество эпох;
+#f train_dict['epochs'] = 10
+# - путь к описанию датасета
+#f train_dict['data'] = data_file_path
+#f train_dict['weights'] =  "/content/my_yolov5/yolov5/runs/train/exp/weights/last.pt"
+#- control
+# файл с описанием путей к данным;
+#f print ("-- Файл с описанием путей к данным:")
+# !cat {data_file_path}
+#f with open(data_file_path, "r") as f:
+#f    print(f.read())
+#
+# ---- FIX (end).
+
+
 #@title ---- Дообучение.
 #
 # Неплохо, но попробуем улучшить.
@@ -261,26 +323,39 @@ my_terra_yolov5.show_test_images(n_samples=N_SAMPLES, img_dir=None)
 #
 # -- используются веса последней эпохи;
 #
-train_dict['weights'] = my_terra_yolov5.exp_dict['train']['last_exp_path']+'/weights/last.pt'
+train_dict["weights"] = my_terra_yolov5.exp_dict["train"]["last_exp_path"]+"/weights/last.pt"
+#fix#0104: train_dict['weights'] =  "/content/my_yolov5/yolov5/runs/train/exp/weights/last.pt"
 #
+# -- NOTE: если collab к этому шагу опять профукал 'last_exp_path', см. FIX_#0104.
+# плюс, скорее всего он профукал и словарь обучения и путь к тренировояной папке.
+# NOTE: обратить внимание на номер папки 'exp' (exp; exp2; exp3 и т.д.).
+#
+# -- control
 print("-- Веса:")
-print(train_dict['weights'])
+print(train_dict["weights"])
 print("-- -- -- --")
 #
 # запуск скрипта train  с параметрами train_dict;
-my_terra_yolov5.run(train_dict, exp_type='train')
-#
+my_terra_yolov5.run(train_dict, exp_type="train")
+##
 
 #@title ---- Детекция. Следующий цикл.
 #
+#
+# -- NOTE: если collab к этому шагу опять профукал 'last_exp_path',
+# то он профукал и словарь обучения и путь к тренировояной папке.
+# см. FIX_#0104
+# NOTE: обратить внимание на номер папки 'exp' (exp; exp2; exp3 и т.д.).
+#
 # путь к лучшим весам модели;
-test_dict['weights'] = my_terra_yolov5.exp_dict['train']['last_exp_path']+'/weights/best.pt'
+test_dict["weights"] = my_terra_yolov5.exp_dict["train"]["last_exp_path"]+"/weights/best.pt"
+#fix#0104: test_dict['weights'] =  "/content/my_yolov5/yolov5/runs/test/exp/weights/best.pt"
 #
 # проверим полный путь;
-print(test_dict['weights'])
+print(test_dict["weights"])
 #
 #запускаем скрипт test с параметрами test_dict;
-my_terra_yolov5.run(test_dict, exp_type='test')
+my_terra_yolov5.run(test_dict, exp_type="test")
 #
 
 #@title ---- Просмотр результатов (пути к файлам изменились).
@@ -294,13 +369,13 @@ my_terra_yolov5.show_test_images(n_samples=N_SAMPLES, img_dir=None)
 
 # @title ---- Понижение порога детекции (если не все машинки определились) -- NOTE: НЕ ПОНАДОБИЛОСЬ;
 #
-# -- NOTE: НЕ ПОНАДОБИЛОСЬ, после дообучения обнаружились все (тоность min 0,71 ; max 0,85);
+# -- NOTE: НЕ ПОНАДОБИЛОСЬ, после дообучения обнаружились все (точность min 0,71 ; max 0,85);
 #
 # --установить значение
-test_dict['conf'] = 0.4
+test_dict["conf"] = 0.4
 #
 # -- запуск
-my_terra_yolov5.run(test_dict, exp_type='test')
+my_terra_yolov5.run(test_dict, exp_type="test")
 #
 # -- просмотр
 my_terra_yolov5.show_test_images(n_samples=N_SAMPLES)
@@ -310,20 +385,20 @@ my_terra_yolov5.show_test_images(n_samples=N_SAMPLES)
 #
 # при помощи словаря настроим параметры и посмотрим результаты валидации;
 val_dict=dict()
-val_dict['data'] = train_dict['data']
+val_dict["data"] = train_dict["data"]
 #
-val_dict['weights'] = os.path.abspath(
-        my_terra_yolov5.exp_dict['train']['last_exp_path']+'/weights/last.pt')
+val_dict["weights"] = os.path.abspath(
+        my_terra_yolov5.exp_dict["train"]["last_exp_path"]+"/weights/last.pt")
 #
 # -- control path;
 print("-- Путь к весам:")
-print(val_dict['weights'])
+print(val_dict["weights"])
 #
 # -- запуск;
-my_terra_yolov5.run(val_dict, exp_type='val')
+my_terra_yolov5.run(val_dict, exp_type="val")
 #
 # Результаты валидации сохраняются в соответствующем подкаталоге каталога runs;
-os.listdir(my_terra_yolov5.exp_dict['train']['last_exp_path'])
+os.listdir(my_terra_yolov5.exp_dict["train"]["last_exp_path"])
 #
 
 #@title ---- Матрица ошибок.
@@ -338,7 +413,7 @@ os.listdir(my_terra_yolov5.exp_dict['train']['last_exp_path'])
 # Если не указать каталог - по умолчанию модель попытается найти изображения
 # в подкаталоге 'val' каталога 'runs'
 #
-my_terra_yolov5.show_val_results(img_path=None, img_list=['confusion_matrix.png', 'PR_curve.png'])
+my_terra_yolov5.show_val_results(img_path=None, img_list=["confusion_matrix.png", "PR_curve.png"])
 #
 
 #@title ---- Сохранение модели. GoogleDrive.
@@ -378,19 +453,19 @@ best_weights_path = my_terra_yolov5.exp_dict["train"]["last_exp_path"]+"/weights
 # сохраним путь к последним весам в переменную
 last_weights_path = my_terra_yolov5.exp_dict["train"]["last_exp_path"]+"/weights/last.pt"
 # скопируем лучшие веса
-# #!cp {best_weights_path} {my_drv_path+'/yolo_weights/'}
+# #!cp {best_weights_path} {my_drv_path+"/yolo_weights/"}
 cmd_cp_01 = f"cp {best_weights_path} {my_drv_path+'/yolo_weights/'}"
 os.system(cmd_cp_01)
 print("-- best_weights: Скопированы.")
 # скопируем последние веса
-# #!cp {last_weights_path} {my_drv_path+'/yolo_weights/'}
+# #!cp {last_weights_path} {my_drv_path+"/yolo_weights/"}
 cmd_cp_02 = f"cp {last_weights_path} {my_drv_path+'/yolo_weights/'}"
 os.system(cmd_cp_02)
 print("-- last_weights: Скопированы.")
 #
 # control
 print("-- Содержание папки с весами на my drive: ")
-# #!ls {my_drv_path+'/yolo_weights/'}
+# #!ls {my_drv_path+"/yolo_weights/"}
 # print(os.listdir({my_drv_path+"/yolo_weights/"}))
 print(os.listdir("/content/drive/MyDrive/yolo_weights/"))
 #
@@ -407,7 +482,7 @@ print(os.listdir("/content/drive/MyDrive/yolo_weights/"))
 #
 # -- вывести файл аннотации для модели
 print("-- Аннотация для модели:")
-my_terra_yolov5.get_annotation('yolov5s')
+my_terra_yolov5.get_annotation("yolov5s")
 print("-- NOTE: памятка - закомментироана в коде ячейки.")
 print("---- FIN ----")
 #
@@ -484,7 +559,7 @@ print("---- FIN ----")
 # пример из отличной статьи господина Kukil, полный текст которой можно найти по ссылке:
 # https://learnopencv.com/mean-average-precision-map-object-detection-model-evaluation-metric/
 # Предположим наш детектор обнаружил на изображении объекты классов
-# 'dog', 'person', 'teddy' и других, но нас пока будут интересовать только класс 'dog'.
+# 'dog', 'person', 'teddy' и других, но нас пока будут интересовать только класс 'dog'n.
 # Можем сразу отметить, что некоторые объекты классифицированы ошибочно.
 #
 # Отсортируем все найденные объекты класса dog в порядке возрастания вероятности детекции Conf:

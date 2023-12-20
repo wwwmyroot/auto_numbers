@@ -3,9 +3,10 @@ NN for automobile numbers detection
 ------
 
 **Разработка нейросети для обнаружения автомобильных номеров на изображениях.**
+(Регион: dataset_1: Россия; dataset_2 (self_made): Крым, Симферополь )
 
-* Основной код (.py) - [NN_auto_numbers_MAIN.py](https://github.com/wwwmyroot/nn_auto_numbers/...... .py)
-* Ноутбук (.ipynb) - [NN_auto_numbers_MAIN.ipynb](https://github.com/wwwmyroot/nn_auto_numbers/...... .ipynb)
+* Основной код (.py) - [NN_auto_numbers_MAIN.py](https://github.com/wwwmyroot/nn_auto_numbers/blob/main/NN_auto_numbers_MAIN.py)
+* Ноутбук (.ipynb) - [NN_auto_numbers_MAIN.ipynb](https://github.com/wwwmyroot/nn_auto_numbers/blob/main/NN_auto_numbers_MAIN.ipynb)
 * Ноутбук с output cells  (GoogleCollab) - [NN_auto_numbers_MAIN_with_output.ipynb](https://github.com/wwwmyroot/nn_auto_numbers/..... _with_output.ipynb)
 * Скрины - в папке [/img]()
 
