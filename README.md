@@ -12,7 +12,7 @@ NN for automobile numbers detection
 -----
 
 * **Dataset_1:** yandexcloud, 1.82G | ( yolo.zip );   
-* **Dataset_2:** yandexcloud, ? G | ( auto_numbers_self_made_01.zip ); img scale ? ;  
+* **Dataset_2:** yandexcloud, ? G | ( auto_numbers_self_made_01.zip );  
 -----
 
 * **Results:**
