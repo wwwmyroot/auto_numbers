@@ -8,7 +8,7 @@ NN for automobile numbers detection
 * Основной код (.py) - [NN_auto_numbers_MAIN.py](https://github.com/wwwmyroot/nn_auto_numbers/blob/main/NN_auto_numbers_MAIN.py)
 * Ноутбук (.ipynb) - [NN_auto_numbers_MAIN.ipynb](https://github.com/wwwmyroot/nn_auto_numbers/blob/main/NN_auto_numbers_MAIN.ipynb)
 * Ноутбук с output cells  (GoogleCollab) - [NN_auto_numbers_MAIN_with_output.ipynb](https://github.com/wwwmyroot/nn_auto_numbers/..... _with_output.ipynb)
-* Скрины - в папке [/img]()
+* Скрины - в папке [/img](https://github.com/wwwmyroot/nn_auto_numbers/tree/main/img)
 
 -----
 
